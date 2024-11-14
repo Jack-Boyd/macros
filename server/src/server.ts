@@ -1,9 +1,11 @@
 import express from 'express';
 import { createSchema, createYoga } from 'graphql-yoga'
-import { resolvers } from './graphql/resolvers';
-import { typeDefs } from './graphql/schema';
+import dotenv from 'dotenv';
+import resolvers from './graphql/resolvers';
+import typeDefs from './graphql/schemas';
 import { authMiddleware } from './middleware/authMiddleware';
 
+dotenv.config();
 const app = express();
 
 app.use(authMiddleware as express.RequestHandler);

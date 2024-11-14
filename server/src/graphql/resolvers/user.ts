@@ -1,12 +1,13 @@
 import { PrismaClient } from '@prisma/client';
 
-import { hashPassword, comparePassword } from '../models/userModel';
-import { Request } from '../@types/express';
-import { generateToken } from '../utils/jwtUtils';
+import { hashPassword, comparePassword } from '../../models/userModel';
+import { getNutritionData } from '../../services/edamamService';
+import { Request } from '../../@types/express';
+import { generateToken } from '../../utils/jwtUtils';
 
 const prisma = new PrismaClient();
 
-export const resolvers = {
+export const userResolvers = {
   Mutation: {
     register: async (_: any, { email, password }: { email: string; password: string }) => {
       const hashedPassword = await hashPassword(password);

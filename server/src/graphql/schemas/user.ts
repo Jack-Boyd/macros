@@ -1,4 +1,4 @@
-export const typeDefs = `#graphql
+export const userDefs = `
   type User {
     id: ID
     email: String
@@ -12,7 +12,6 @@ export const typeDefs = `#graphql
     ADMIN
     USER
   }
-
   type Mutation {
     register(email: String!, password: String!): AuthPayload!
     login(email: String!, password: String!): AuthPayload!
