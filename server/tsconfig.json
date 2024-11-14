@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "ES6",
-    "module": "commonjs",
+    "target": "ES2022",
+    "module": "ESNext",
     "rootDir": "./src",
     "outDir": "./dist",
     "esModuleInterop": true,
@@ -14,16 +14,21 @@
     "noImplicitThis": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
-    "typeRoots": ["./node_modules/@types"],
+    "typeRoots": ["./node_modules/@types", "src/@types"],
     "lib": ["ES6"],
     "allowSyntheticDefaultImports": true,
     "sourceMap": true
   },
   "include": [
-    "src"
+    "src",
   ],
   "exclude": [
     "node_modules",
     "dist"
-  ]
+  ],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  }
 }

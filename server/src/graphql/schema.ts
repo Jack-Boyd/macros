@@ -1,0 +1,23 @@
+export const typeDefs = `#graphql
+  type User {
+    id: ID
+    email: String
+    image: String
+    role: Role
+  }
+  type AuthPayload {
+    token: String!
+  }
+  enum Role {
+    ADMIN
+    USER
+  }
+
+  type Mutation {
+    register(email: String!, password: String!): AuthPayload!
+    login(email: String!, password: String!): AuthPayload!
+  }
+  type Query {
+    me: User
+  }
+`;
