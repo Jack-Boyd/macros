@@ -1,11 +1,7 @@
-import { PrismaClient } from '@prisma/client';
-
-import { hashPassword, comparePassword } from '../../models/userModel';
-import { getNutritionData } from '../../services/edamamService';
+import { hashPassword, comparePassword } from '../../models/user';
 import { Request } from '../../@types/express';
-import { generateToken } from '../../utils/jwtUtils';
-
-const prisma = new PrismaClient();
+import { generateToken } from '../../utils/jwt-utils';
+import prisma from '../../config/db';
 
 export const userResolvers = {
   Mutation: {

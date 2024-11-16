@@ -1,4 +1,4 @@
-import { getNutritionData } from '../../services/edamamService';
+import { getNutritionData } from '../../services/edamam-service';
 
 export const nutrientResolvers = {
   Query: {

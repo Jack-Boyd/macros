@@ -1,7 +1,8 @@
-import { nutrientDefs } from './nutrients';
-import { userDefs } from './user';
+import { mergeTypeDefs } from '@graphql-tools/merge';
 
-export default `
-  ${userDefs}
-  ${nutrientDefs}
-`;
+import { userDefs } from './user';
+import { nutrientDefs } from './nutrients';
+
+const typeDefs = mergeTypeDefs([userDefs, nutrientDefs]);
+
+export default typeDefs;
