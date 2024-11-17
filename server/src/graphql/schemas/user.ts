@@ -6,7 +6,7 @@ export const userDefs = `
     role: Role
   }
   type AuthPayload {
-    token: String!
+    message: String!
   }
   enum Role {
     ADMIN

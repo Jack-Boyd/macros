@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/server.ts"
+    "start": "npx tsx watch src/server.ts"
   },
+  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",

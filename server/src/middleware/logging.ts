@@ -1,6 +1,10 @@
-import { createLogger, format, transports } from 'winston';
-import path from 'path';
 import morgan, { StreamOptions } from 'morgan';
+import { createLogger, format, transports } from 'winston';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const logger = createLogger({
   level: 'info',

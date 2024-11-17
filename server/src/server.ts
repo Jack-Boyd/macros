@@ -11,13 +11,18 @@ import authMiddleware from './middleware/auth';
 import errorMiddleware from './middleware/error';
 import loggingMiddleware from './middleware/logging';
 import notFoundMiddleware from './middleware/not-found';
+import tokenMiddleware from './middleware/token';
 
 function createApp() {
   const app = express();
-  app.use(cors());
-  app.use(compression());
   app.use(cookieParser());
+  app.use(cors({
+    origin: 'http://localhost:5173', // Replace with your frontend's origin
+    credentials: true, // Allows cookies and credentials to be sent
+  }));
+  app.use(compression());
   app.use(loggingMiddleware);
+  app.use(tokenMiddleware);
   app.use(authMiddleware);
 
   app.get('/health', (req, res) => {
