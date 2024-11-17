@@ -3,7 +3,7 @@ import env from '../config/env';
 
 const BASE_URL = 'https://api.edamam.com/api/nutrition-data';
 
-export const getNutritionData = async (ingredientList: string) => {
+export const loadNutritionData = async (ingredientList: string) => {
   const EDAMAM_APP_ID = env.EDAMAM_APP_ID;
   const EDAMAM_APP_KEY = env.EDAMAM_APP_KEY;
   if (!EDAMAM_APP_ID || !EDAMAM_APP_KEY) {

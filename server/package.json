@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "npx tsx watch src/server.ts"
+    "start": "npx tsx watch src/server.ts",
+    "generate": "graphql-codegen"
   },
   "type": "module",
   "keywords": [],
@@ -11,6 +12,9 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.3",
+    "@graphql-codegen/typescript": "^4.1.1",
+    "@graphql-codegen/typescript-resolvers": "^4.4.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/compression": "^1.7.5",
     "@types/cookie-parser": "^1.4.7",
@@ -25,6 +29,7 @@
     "typescript": "^5.6.3"
   },
   "dependencies": {
+    "@graphql-tools/load-files": "^7.0.0",
     "@graphql-tools/merge": "^9.0.9",
     "@prisma/client": "^5.22.0",
     "axios": "^1.7.7",

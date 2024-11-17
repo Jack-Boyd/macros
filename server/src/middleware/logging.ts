@@ -1,10 +1,7 @@
 import morgan, { StreamOptions } from 'morgan';
 import { createLogger, format, transports } from 'winston';
-import path, { dirname } from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import path from 'path';
+import { __projectRoot } from '../utils/paths';
 
 const logger = createLogger({
   level: 'info',
@@ -16,8 +13,8 @@ const logger = createLogger({
   ),
   transports: [
     new transports.Console(),
-    new transports.File({ filename: path.join(__dirname, '../logs/error.log'), level: 'error' }),
-    new transports.File({ filename: path.join(__dirname, '../logs/combined.log') }),
+    new transports.File({ filename: path.join(__projectRoot, 'src/logs/error.log'), level: 'error' }),
+    new transports.File({ filename: path.join(__projectRoot, 'src/logs/combined.log') }),
   ],
 });
 

@@ -2,11 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
-import { createSchema, createYoga } from 'graphql-yoga';
-
+import { createYoga } from 'graphql-yoga';
 import env from './config/env';
-import resolvers from './graphql/resolvers';
-import typeDefs from './graphql/schemas';
+import schema from './graphql/create-schema';
 import authMiddleware from './middleware/auth';
 import errorMiddleware from './middleware/error';
 import loggingMiddleware from './middleware/logging';
@@ -17,8 +15,8 @@ function createApp() {
   const app = express();
   app.use(cookieParser());
   app.use(cors({
-    origin: 'http://localhost:5173', // Replace with your frontend's origin
-    credentials: true, // Allows cookies and credentials to be sent
+    origin: 'http://localhost:5173',
+    credentials: true,
   }));
   app.use(compression());
   app.use(loggingMiddleware);
@@ -32,12 +30,7 @@ function createApp() {
   return app;
 }
 
-export const schema = createSchema({
-  typeDefs,
-  resolvers,
-});
-
-const yoga = createYoga({ schema, graphiql: true, });
+const yoga = createYoga({ schema });
 
 const app = createApp();
 app.use(yoga.graphqlEndpoint, yoga);
