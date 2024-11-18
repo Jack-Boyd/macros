@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import LoginPage from './login';
-import ProtectedRoute from './protected-route';
-import { AuthProvider } from './auth-context';
+import { AuthProvider } from './context/auth-context/auth-provider';
+import PrivateRoute from './layouts/private-route';
+import LoginPage from './pages/login/login';
 
 function App() {
   return (
@@ -10,11 +10,11 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route
-              path="/protected"
+              path="/app"
               element={
-                <ProtectedRoute>
-                  <div>Protected Route</div>
-                </ProtectedRoute>
+                <PrivateRoute>
+                  <div>Private Route</div>
+                </PrivateRoute>
               }
             />
         </Routes>

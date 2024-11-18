@@ -6,7 +6,6 @@ import { verifyToken } from '../utils/jwt-utils';
 
 const authMiddleware: RequestHandler = (req: Request, res, next): void => {
   const authHeader = req.headers.authorization;
-  console.log('AUTH', authHeader);
   if (authHeader) {
     const token = authHeader.split(' ')[1];
     try {

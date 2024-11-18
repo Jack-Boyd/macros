@@ -1,12 +1,12 @@
 import { FC } from 'react';
 import { Navigate } from 'react-router-dom';
-import { useAuth } from './auth-context';
+import { useAuth } from '../hooks/useAuth';
 
-interface ProtectedRouteProps {
+interface PrivateRouteProps {
   children: React.ReactNode;
 }
 
-const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
+const PrivateRoute: FC<PrivateRouteProps> = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
   if (loading) {
     return <div>Loading...</div>;
@@ -18,4 +18,4 @@ const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
   return <>{children}</>;
 };
 
-export default ProtectedRoute;
+export default PrivateRoute;
