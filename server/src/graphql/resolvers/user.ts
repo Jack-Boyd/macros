@@ -2,7 +2,7 @@ import { Response } from 'express';
 import { hashPassword, comparePassword } from '../../models/user';
 import { Request } from '../../@types/express';
 import { generateToken } from '../../utils/jwt-utils';
-import { MutationResolvers, QueryResolvers, Resolvers } from '../schemas/types.generated';
+import { MutationResolvers, QueryResolvers, Resolvers, Role } from './generated';
 import prisma from '../../config/db';
 
 const login: MutationResolvers['login'] =  async (_: any, { email, password }: { email: string; password: string }, { res }: { res: Response }) => {
@@ -41,7 +41,14 @@ const register: MutationResolvers['register'] = async (_: any, { email, password
 const me: QueryResolvers['me'] = async (_: any, __: any, { req }: { req: Request }) => {
   const user = req.user;
   if (!user) throw new Error('Not authenticated');
-  return prisma.user.findUnique({ where: { id: user.userId } });
+  const dbUser = await prisma.user.findUnique({ where: { id: user.userId } });
+  if (!dbUser) throw new Error('User not found');
+  return {
+    id: dbUser.id,
+    email: dbUser.email || '',
+    image: dbUser.image || '',
+    role: dbUser.role as Role,
+  };
 };
 
 export const userResolvers: Resolvers = {

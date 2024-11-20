@@ -8,16 +8,16 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        String  @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  email     String  @unique
+  email     String   @unique
   password  String
   image     String?
   role      Role     @default(USER)
 }
 
 enum Role {
-  USER
-  ADMIN
+  USER  @map("USER") 
+  ADMIN @map("ADMIN")
 }

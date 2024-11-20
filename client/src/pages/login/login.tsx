@@ -34,7 +34,7 @@ function LoginPage() {
     },
     onSuccess: () => {
       setIsAuthenticated(true);
-      navigate('/protected');
+      navigate('/app');
     },
   });
 

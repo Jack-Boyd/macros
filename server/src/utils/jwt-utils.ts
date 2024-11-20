@@ -3,7 +3,7 @@ import env from '../config/env';
 
 const SECRET_KEY = env.JWT_SECRET || 'supersecretkey';
 
-export const generateToken = (userId: number): string => 
+export const generateToken = (userId: string): string => 
   jwt.sign({ userId }, SECRET_KEY, { expiresIn: '1h' });
 
 

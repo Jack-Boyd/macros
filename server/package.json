@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "npx tsx watch src/server.ts",
+    "seed": "npx tsx prisma/seed.ts",
     "generate": "graphql-codegen"
   },
   "type": "module",
