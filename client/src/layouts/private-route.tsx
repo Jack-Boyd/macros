@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
 interface PrivateRouteProps {
@@ -15,7 +15,10 @@ const PrivateRoute: FC<PrivateRouteProps> = ({ children }) => {
     return <Navigate to="/login" />;
   }
 
-  return <>{children}</>;
+  return <>
+    {children}
+    <Outlet />
+  </>;
 };
 
 export default PrivateRoute;

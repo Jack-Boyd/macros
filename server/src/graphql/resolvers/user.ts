@@ -26,6 +26,7 @@ const register: MutationResolvers['register'] = async (_: any, { email, password
     data: {
       email,
       password: hashedPassword,
+      role: 'USER',
     },
   });
   const token = generateToken(user.id);
@@ -35,14 +36,16 @@ const register: MutationResolvers['register'] = async (_: any, { email, password
     sameSite: 'strict',
     maxAge: 3600000,
   });
-  return { message: 'Login successful' };    
+  return { message: 'Registration successful' };    
 }
 
 const me: QueryResolvers['me'] = async (_: any, __: any, { req }: { req: Request }) => {
   const user = req.user;
   if (!user) throw new Error('Not authenticated');
+  
   const dbUser = await prisma.user.findUnique({ where: { id: user.userId } });
   if (!dbUser) throw new Error('User not found');
+  
   return {
     id: dbUser.id,
     email: dbUser.email || '',

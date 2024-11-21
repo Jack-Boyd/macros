@@ -1,18 +1,15 @@
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 
-function LoginPage() {
+function RegisterPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { setIsAuthenticated } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
 
-  const from = (location.state as { from?: string })?.from || '/app';
-
-  const loginMutation = useMutation({
+  const registerMutation = useMutation({
     mutationFn: async ({ email, password }: { email: string; password: string }) => {
       const response = await fetch('http://localhost:4000/graphql', {
         method: 'POST',
@@ -22,7 +19,7 @@ function LoginPage() {
         body: JSON.stringify({
           query: `
             mutation {
-              login(email: "${email}", password: "${password}") {
+              register(email: "${email}", password: "${password}") {
                 message
               }
             }
@@ -31,36 +28,36 @@ function LoginPage() {
         credentials: 'include',
       });
       if (!response.ok) {
-        throw new Error('Login failed');
+        throw new Error('Registration failed');
       }
       return response.json();
     },
     onSuccess: () => {
       setIsAuthenticated(true);
-      navigate(from);
+      navigate('/app');
     },
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    loginMutation.mutate({ email, password });
+    registerMutation.mutate({ email, password });
   };
 
   return (
     <div>
-      <h1>Login</h1>
+      <h1>Register</h1>
       <form onSubmit={handleSubmit}>
         <label>Email:</label>
         <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
         <label>Password:</label>
         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        <button type="submit" disabled={loginMutation.isPending}>
-          {loginMutation.isPending ? 'Logging in...' : 'Login'}
+        <button type="submit" disabled={registerMutation.isPending}>
+          {registerMutation.isPending ? 'Loading' : 'Register'}
         </button>
       </form>
-      {loginMutation.isError && <p style={{ color: 'red' }}>Login failed. Please try again.</p>}
+      {registerMutation.isError && <p style={{ color: 'red' }}>Register failed. Please try again.</p>}
     </div>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

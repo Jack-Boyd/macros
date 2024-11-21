@@ -3,6 +3,7 @@ import AuthContext from './auth-context';
 
 export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -29,6 +30,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
         const data = await response.json();
         if (data.data.me) {
           setIsAuthenticated(true);
+          setUser(data.data.me);
         } else {
           setIsAuthenticated(false);
         }
@@ -44,7 +46,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   }, []);
   
   return (
-    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, loading}}>
+    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, loading, user}}>
       {children}
     </AuthContext.Provider>
   );
