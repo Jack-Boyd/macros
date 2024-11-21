@@ -4,6 +4,7 @@ import PublicRoute from './layouts/public-route';
 import PrivateRoute from './layouts/private-route';
 import LoginPage from './pages/login/login';
 import RegisterPage from './pages/register/register';
+import Dashboard from './pages/app/dashboard/dashboard';
 import ProfilePage from './pages/app/profile/profile';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
               </PrivateRoute>
             }
           >
+            <Route path="" element={<Dashboard />} />
             <Route path="profile" element={<ProfilePage />} />
           </Route>
         </Routes>
