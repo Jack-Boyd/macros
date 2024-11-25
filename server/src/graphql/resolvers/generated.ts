@@ -21,6 +21,11 @@ export type AuthPayload = {
   message: Scalars['String']['output'];
 };
 
+export enum Gender {
+  Female = 'FEMALE',
+  Male = 'MALE'
+}
+
 export type Ingredient = {
   __typename?: 'Ingredient';
   parsed?: Maybe<Array<Maybe<ParsedIngredient>>>;
@@ -173,10 +178,18 @@ export type TotalNutrientsKCal = {
 
 export type User = {
   __typename?: 'User';
+  BMR?: Maybe<Scalars['Int']['output']>;
+  TDEE?: Maybe<Scalars['Int']['output']>;
+  age?: Maybe<Scalars['Int']['output']>;
   email?: Maybe<Scalars['String']['output']>;
+  gender?: Maybe<Gender>;
+  height?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['ID']['output']>;
   image?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  profileComplete?: Maybe<Scalars['Boolean']['output']>;
   role?: Maybe<Role>;
+  weight?: Maybe<Scalars['Float']['output']>;
 };
 
 
@@ -253,6 +266,7 @@ export type ResolversTypes = {
   AuthPayload: ResolverTypeWrapper<AuthPayload>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
+  Gender: Gender;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Ingredient: ResolverTypeWrapper<Ingredient>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
@@ -421,10 +435,18 @@ export type TotalNutrientsKCalResolvers<ContextType = any, ParentType extends Re
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
+  BMR?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  TDEE?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  age?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  gender?: Resolver<Maybe<ResolversTypes['Gender']>, ParentType, ContextType>;
+  height?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  profileComplete?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   role?: Resolver<Maybe<ResolversTypes['Role']>, ParentType, ContextType>;
+  weight?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

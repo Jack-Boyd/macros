@@ -1,24 +1,24 @@
 import { FC } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
-interface PrivateRouteProps {
-  children: React.ReactNode;
-}
+const PrivateRoute: FC = () => {
+  const { isAuthenticated, isProfileComplete, loading } = useAuth();
+  const location = useLocation();
 
-const PrivateRoute: FC<PrivateRouteProps> = ({ children }) => {
-  const { isAuthenticated, loading } = useAuth();
   if (loading) {
     return <div>Loading...</div>;
   }
+
   if (!isAuthenticated) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" replace />;
   }
 
-  return <>
-    {children}
-    <Outlet />
-  </>;
+  if (!isProfileComplete && location.pathname !== '/app/setup') {
+    return <Navigate to="/app/setup" replace />;
+  }
+
+  return <Outlet />;
 };
 
 export default PrivateRoute;

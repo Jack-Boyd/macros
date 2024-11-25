@@ -2,7 +2,7 @@ import { Response } from 'express';
 import { hashPassword, comparePassword } from '../../models/user';
 import { Request } from '../../@types/express';
 import { generateToken } from '../../utils/jwt-utils';
-import { MutationResolvers, QueryResolvers, Resolvers, Role } from './generated';
+import { MutationResolvers, QueryResolvers, Resolvers, Role, Gender } from './generated';
 import prisma from '../../config/db';
 
 const login: MutationResolvers['login'] =  async (_: any, { email, password }: { email: string; password: string }, { res }: { res: Response }) => {
@@ -47,10 +47,9 @@ const me: QueryResolvers['me'] = async (_: any, __: any, { req }: { req: Request
   if (!dbUser) throw new Error('User not found');
   
   return {
-    id: dbUser.id,
-    email: dbUser.email || '',
-    image: dbUser.image || '',
+    ...dbUser,
     role: dbUser.role as Role,
+    gender: dbUser.gender as Gender,
   };
 };
 

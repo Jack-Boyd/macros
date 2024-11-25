@@ -3,6 +3,7 @@ import AuthContext from './auth-context';
 
 export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isProfileComplete, setIsProfileComplete] = useState(true);
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
 
@@ -27,10 +28,11 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
           credentials: 'include',
         });
 
-        const data = await response.json();
-        if (data.data.me) {
+        const { data } = await response.json();
+        if (data.me) {
           setIsAuthenticated(true);
-          setUser(data.data.me);
+          setUser(data.me);
+          setIsProfileComplete(data.me.profileComplete);
         } else {
           setIsAuthenticated(false);
         }
@@ -46,7 +48,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   }, []);
   
   return (
-    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, loading, user}}>
+    <AuthContext.Provider value={{ isAuthenticated, isProfileComplete, setIsAuthenticated, loading, user}}>
       {children}
     </AuthContext.Provider>
   );

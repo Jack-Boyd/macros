@@ -7,6 +7,7 @@ type User = Partial<{
 
 interface AuthContextProps {
   isAuthenticated: boolean;
+  isProfileComplete: boolean;
   setIsAuthenticated: (value: boolean) => void;
   loading: boolean;
   user: User;

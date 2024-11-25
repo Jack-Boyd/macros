@@ -6,6 +6,7 @@ import LoginPage from './pages/login/login';
 import RegisterPage from './pages/register/register';
 import Dashboard from './pages/app/dashboard/dashboard';
 import ProfilePage from './pages/app/profile/profile';
+import SetupPage from './pages/app/setup/setup';
 
 function App() {
   return (
@@ -17,16 +18,10 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
           </Route>
-          <Route
-            path="/app"
-            element={
-              <PrivateRoute>
-                <div>Private</div>
-              </PrivateRoute>
-            }
-          >
-            <Route path="" element={<Dashboard />} />
+          <Route path="/app" element={<PrivateRoute />}>
+            <Route index element={<Dashboard />} />
             <Route path="profile" element={<ProfilePage />} />
+            <Route path="setup" element={<SetupPage />} />
           </Route>
         </Routes>
       </Router>
