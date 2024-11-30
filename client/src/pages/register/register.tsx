@@ -34,7 +34,8 @@ function RegisterPage() {
     },
     onSuccess: () => {
       setIsAuthenticated(true);
-      navigate('/app');
+      navigate('/app', { replace: true });
+      window.location.reload();
     },
   });
 

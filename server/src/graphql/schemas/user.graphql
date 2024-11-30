@@ -5,13 +5,23 @@ type Query {
 type Mutation {
   register(email: String!, password: String!): AuthPayload!
   login(email: String!, password: String!): AuthPayload!
+  logout: AuthPayload!
+  updateUser(
+    firstName: String
+    lastName: String
+    age: Int
+    height: Float
+    weight: Float
+    gender: Gender
+  ): User
 }
 type User {
   id: ID
   email: String
   image: String
   role: Role
-  name: String
+  firstName: String
+  lastName: String
   age: Int
   height: Float
   weight: Float

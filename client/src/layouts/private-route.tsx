@@ -13,7 +13,6 @@ const PrivateRoute: FC = () => {
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
-
   if (!isProfileComplete && location.pathname !== '/app/setup') {
     return <Navigate to="/app/setup" replace />;
   }

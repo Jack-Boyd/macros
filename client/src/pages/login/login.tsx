@@ -37,7 +37,8 @@ function LoginPage() {
     },
     onSuccess: () => {
       setIsAuthenticated(true);
-      navigate(from);
+      navigate(from, { replace: true });
+      window.location.reload();
     },
   });
 

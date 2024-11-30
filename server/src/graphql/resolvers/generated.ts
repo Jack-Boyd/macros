@@ -35,7 +35,9 @@ export type Ingredient = {
 export type Mutation = {
   __typename?: 'Mutation';
   login: AuthPayload;
+  logout: AuthPayload;
   register: AuthPayload;
+  updateUser?: Maybe<User>;
 };
 
 
@@ -48,6 +50,16 @@ export type MutationLoginArgs = {
 export type MutationRegisterArgs = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
+};
+
+
+export type MutationUpdateUserArgs = {
+  age?: InputMaybe<Scalars['Int']['input']>;
+  firstName?: InputMaybe<Scalars['String']['input']>;
+  gender?: InputMaybe<Gender>;
+  height?: InputMaybe<Scalars['Float']['input']>;
+  lastName?: InputMaybe<Scalars['String']['input']>;
+  weight?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type NutrientInfo = {
@@ -182,11 +194,12 @@ export type User = {
   TDEE?: Maybe<Scalars['Int']['output']>;
   age?: Maybe<Scalars['Int']['output']>;
   email?: Maybe<Scalars['String']['output']>;
+  firstName?: Maybe<Scalars['String']['output']>;
   gender?: Maybe<Gender>;
   height?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['ID']['output']>;
   image?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
+  lastName?: Maybe<Scalars['String']['output']>;
   profileComplete?: Maybe<Scalars['Boolean']['output']>;
   role?: Maybe<Role>;
   weight?: Maybe<Scalars['Float']['output']>;
@@ -316,7 +329,9 @@ export type IngredientResolvers<ContextType = any, ParentType extends ResolversP
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   login?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'email' | 'password'>>;
+  logout?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType>;
   register?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationRegisterArgs, 'email' | 'password'>>;
+  updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<MutationUpdateUserArgs>>;
 };
 
 export type NutrientInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['NutrientInfo'] = ResolversParentTypes['NutrientInfo']> = {
@@ -439,11 +454,12 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   TDEE?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   age?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  firstName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   gender?: Resolver<Maybe<ResolversTypes['Gender']>, ParentType, ContextType>;
   height?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   profileComplete?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   role?: Resolver<Maybe<ResolversTypes['Role']>, ParentType, ContextType>;
   weight?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;

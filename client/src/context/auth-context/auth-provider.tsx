@@ -21,6 +21,8 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
                 me {
                   id
                   email
+                  BMR
+                  profileComplete
                 }
               }
             `,
