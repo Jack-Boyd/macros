@@ -7,31 +7,52 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String  @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  email     String   @unique
-  password  String
-  image     String?
-  role      Role     @default(USER)
-  firstName      String? 
-  lastName      String?
-  age       Int?
-  height    Float?
-  weight    Float?
-  gender    Gender?
-  BMR       Int?
-  TDEE      Int?
-  profileComplete Boolean  @default(false)
-}
-
 enum Role {
-  USER  @map("USER") 
-  ADMIN @map("ADMIN")
+  USER
+  ADMIN
 }
 
 enum Gender {
   MALE
   FEMALE
+}
+
+model User {
+  id              String      @id @default(cuid())
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  email           String      @unique
+  password        String
+  image           String?
+  role            Role        @default(USER)
+  firstName       String?
+  lastName        String?
+  age             Int?
+  height          Float?
+  weight          Float?
+  gender          Gender?
+  BMR             Int?
+  TDEE            Int?
+  profileComplete Boolean     @default(false)
+
+  ingredients     Ingredient[]
+}
+
+model Ingredient {
+  id            String        @id @default(cuid())
+  name          String        @unique
+  description   String?
+  calories      Float
+  protein       Float
+  carbohydrates Float
+  fats          Float
+  fiber         Float?
+  sugar         Float?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  createdById   String
+  createdBy     User          @relation(fields: [createdById], references: [id])
+
+  @@index([name])
 }

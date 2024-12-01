@@ -21,23 +21,55 @@ export type AuthPayload = {
   message: Scalars['String']['output'];
 };
 
-export enum Gender {
-  Female = 'FEMALE',
-  Male = 'MALE'
-}
+export const Gender = {
+  Female: 'FEMALE',
+  Male: 'MALE'
+} as const;
 
+export type Gender = typeof Gender[keyof typeof Gender];
 export type Ingredient = {
   __typename?: 'Ingredient';
+  calories: Scalars['Float']['output'];
+  carbohydrates: Scalars['Float']['output'];
+  createdBy: User;
+  description?: Maybe<Scalars['String']['output']>;
+  fats: Scalars['Float']['output'];
+  fiber?: Maybe<Scalars['Float']['output']>;
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
   parsed?: Maybe<Array<Maybe<ParsedIngredient>>>;
+  protein: Scalars['Float']['output'];
+  sugar?: Maybe<Scalars['Float']['output']>;
   text?: Maybe<Scalars['String']['output']>;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createIngredient: Ingredient;
+  deleteIngredient: Ingredient;
   login: AuthPayload;
   logout: AuthPayload;
   register: AuthPayload;
+  updateIngredient: Ingredient;
   updateUser?: Maybe<User>;
+};
+
+
+export type MutationCreateIngredientArgs = {
+  calories: Scalars['Float']['input'];
+  carbohydrates: Scalars['Float']['input'];
+  description: Scalars['String']['input'];
+  fats: Scalars['Float']['input'];
+  fiber?: InputMaybe<Scalars['Float']['input']>;
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+  protein: Scalars['Float']['input'];
+  sugar?: InputMaybe<Scalars['Float']['input']>;
+};
+
+
+export type MutationDeleteIngredientArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -50,6 +82,19 @@ export type MutationLoginArgs = {
 export type MutationRegisterArgs = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
+};
+
+
+export type MutationUpdateIngredientArgs = {
+  calories?: InputMaybe<Scalars['Float']['input']>;
+  carbohydrates?: InputMaybe<Scalars['Float']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  fats?: InputMaybe<Scalars['Float']['input']>;
+  fiber?: InputMaybe<Scalars['Float']['input']>;
+  id: Scalars['ID']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+  protein?: InputMaybe<Scalars['Float']['input']>;
+  sugar?: InputMaybe<Scalars['Float']['input']>;
 };
 
 
@@ -102,6 +147,8 @@ export type ParsedIngredient = {
 export type Query = {
   __typename?: 'Query';
   getNutritionData?: Maybe<NutritionData>;
+  ingredient: Ingredient;
+  ingredients: Array<Ingredient>;
   me?: Maybe<User>;
 };
 
@@ -110,11 +157,17 @@ export type QueryGetNutritionDataArgs = {
   ingredientList: Scalars['String']['input'];
 };
 
-export enum Role {
-  Admin = 'ADMIN',
-  User = 'USER'
-}
 
+export type QueryIngredientArgs = {
+  id: Scalars['ID']['input'];
+};
+
+export const Role = {
+  Admin: 'ADMIN',
+  User: 'USER'
+} as const;
+
+export type Role = typeof Role[keyof typeof Role];
 export type TotalDaily = {
   __typename?: 'TotalDaily';
   CA?: Maybe<NutrientInfo>;
@@ -322,15 +375,28 @@ export type AuthPayloadResolvers<ContextType = any, ParentType extends Resolvers
 };
 
 export type IngredientResolvers<ContextType = any, ParentType extends ResolversParentTypes['Ingredient'] = ResolversParentTypes['Ingredient']> = {
+  calories?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  carbohydrates?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  fats?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  fiber?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   parsed?: Resolver<Maybe<Array<Maybe<ResolversTypes['ParsedIngredient']>>>, ParentType, ContextType>;
+  protein?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  sugar?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   text?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  createIngredient?: Resolver<ResolversTypes['Ingredient'], ParentType, ContextType, RequireFields<MutationCreateIngredientArgs, 'calories' | 'carbohydrates' | 'description' | 'fats' | 'id' | 'name' | 'protein'>>;
+  deleteIngredient?: Resolver<ResolversTypes['Ingredient'], ParentType, ContextType, RequireFields<MutationDeleteIngredientArgs, 'id'>>;
   login?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'email' | 'password'>>;
   logout?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType>;
   register?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationRegisterArgs, 'email' | 'password'>>;
+  updateIngredient?: Resolver<ResolversTypes['Ingredient'], ParentType, ContextType, RequireFields<MutationUpdateIngredientArgs, 'id'>>;
   updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<MutationUpdateUserArgs>>;
 };
 
@@ -373,6 +439,8 @@ export type ParsedIngredientResolvers<ContextType = any, ParentType extends Reso
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   getNutritionData?: Resolver<Maybe<ResolversTypes['NutritionData']>, ParentType, ContextType, RequireFields<QueryGetNutritionDataArgs, 'ingredientList'>>;
+  ingredient?: Resolver<ResolversTypes['Ingredient'], ParentType, ContextType, RequireFields<QueryIngredientArgs, 'id'>>;
+  ingredients?: Resolver<Array<ResolversTypes['Ingredient']>, ParentType, ContextType>;
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
 };
 

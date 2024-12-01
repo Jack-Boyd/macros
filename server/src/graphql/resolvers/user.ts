@@ -71,7 +71,7 @@ const updateUser: MutationResolvers['updateUser'] = async (
       age,
       height,
       weight,
-      gender: gender as Gender,
+      gender,
       BMR: bmr,
       profileComplete: true,
     },
@@ -91,11 +91,7 @@ const me: QueryResolvers['me'] = async (_: any, __: any, { req }: { req: Request
   const dbUser = await prisma.user.findUnique({ where: { id: user.userId } });
   if (!dbUser) throw new Error('User not found');
   
-  return {
-    ...dbUser,
-    role: dbUser.role as Role,
-    gender: dbUser.gender as Gender,
-  };
+  return dbUser;
 };
 
 export const userResolvers: Resolvers = {

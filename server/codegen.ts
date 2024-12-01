@@ -7,5 +7,8 @@ const config: CodegenConfig = {
       plugins: ['typescript', 'typescript-resolvers'],
     },
   },
+  config: {
+    enumsAsConst: true,
+  },
 };
 export default config;

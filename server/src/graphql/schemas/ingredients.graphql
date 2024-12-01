@@ -1,0 +1,45 @@
+type Query {
+  ingredients: [Ingredient!]!
+  ingredient(id: ID!): Ingredient!
+}
+
+type Mutation {
+  createIngredient(
+    id: ID!
+    name: String!
+    description: String!
+    calories: Float!
+    protein: Float!
+    carbohydrates: Float!
+    fats: Float!
+    fiber: Float
+    sugar: Float
+  ): Ingredient!
+
+  updateIngredient(
+    id: ID!
+    name: String
+    description: String
+    calories: Float
+    protein: Float
+    carbohydrates: Float
+    fats: Float
+    fiber: Float
+    sugar: Float
+  ): Ingredient!
+
+  deleteIngredient(id: ID!): Ingredient!
+}
+
+type Ingredient {
+  id: ID!
+  name: String!
+  description: String
+  calories: Float!
+  protein: Float!
+  carbohydrates: Float!
+  fats: Float!
+  fiber: Float
+  sugar: Float
+  createdBy: User!
+}
