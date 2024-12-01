@@ -1,55 +1,35 @@
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
+import { graphql } from '../../../gql/gql';
+import { graphqlClient } from '../../../utils/graphql-client';
+
+const CREATE_INGREDIENT_MUTATION = graphql(`
+  mutation CreateIngredient($name: String!, $description: String!, $calories: Float!, $protein: Float!, $carbohydrates: Float!, $fats: Float!, $fiber: Float, $sugar: Float) {
+    createIngredient(name: $name, description: $description, calories: $calories, protein: $protein, carbohydrates: $carbohydrates, fats: $fats, fiber: $fiber, sugar: $sugar) {
+      id
+      name
+      description
+      calories
+      protein
+      carbohydrates
+      fats
+      fiber
+      sugar
+      createdBy {
+        id
+        firstName
+        lastName
+      }
+    }
+  }
+`);
 
 function AddIngredientPage() {
   const { register, handleSubmit } = useForm();
 
   const mutation = useMutation({
-    mutationFn: async (data: { name: string, description: string, calories: number, protein: number, carbohydrates: number, fats: number, fiber: number | null, sugar: number | null }) => {
-      const response = await fetch('http://localhost:4000/graphql', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          query: `
-            mutation ($name: String!, $description: String!, $calories: Float!, $protein: Float!, $carbohydrates: Float!, $fats: Float!, $fiber: Float, $sugar: Float) {
-              createIngredient(name: $name, description: $description, calories: $calories, protein: $protein, carbohydrates: $carbohydrates, fats: $fats, fiber: $fiber, sugar: $sugar) {
-                id
-                name
-                description
-                calories
-                protein
-                carbohydrates
-                fats
-                fiber
-                sugar
-                createdBy {
-                  id
-                  firstName
-                  lastName
-                }
-              }
-            }
-          `,
-          variables: {
-            name: data.name,
-            description: data.description,
-            calories: data.calories,
-            protein: data.protein,
-            carbohydrates: data.carbohydrates,
-            fats: data.fats,
-            fiber: data.fiber,
-            sugar: data.sugar,
-          },
-        }),
-        credentials: 'include',
-      });
-      if (!response.ok) {
-        throw new Error('Failed to create ingredient');
-      }
-      return response.json();
-    },
+    mutationFn: async (data: { name: string, description: string, calories: number, protein: number, carbohydrates: number, fats: number, fiber: number | null, sugar: number | null }) => 
+      graphqlClient.request(CREATE_INGREDIENT_MUTATION, data),
     onSuccess: (data) => {
       console.log('Ingredient created successfully:', data);
     },

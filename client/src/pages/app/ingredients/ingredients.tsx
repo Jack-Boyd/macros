@@ -1,65 +1,32 @@
 import { useQuery } from '@tanstack/react-query';
+import { graphql } from '../../../gql/gql';
+import { graphqlClient } from '../../../utils/graphql-client';
 
-interface Ingredient {
-  id: string;
-  name: string;
-  description: string;
-  calories: number;
-  protein: number;
-  carbohydrates: number;
-  fats: number;
-  fiber: number | null;
-  sugar: number | null;
-  createdBy: {
-    id: string;
-    firstName: string;
-    lastName: string;
-  };
-}
-
-const fetchIngredients = async (): Promise<{ ingredients: Ingredient[] }> => {
-  const response = await fetch('http://localhost:4000/graphql', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      query: `
-        query {
-          ingredients {
-            id
-            name
-            description
-            calories
-            protein
-            carbohydrates
-            fats
-            fiber
-            sugar
-            createdBy {
-              id
-              firstName
-              lastName
-            }
-          }
-        }
-      `,
-    }),
-    credentials: 'include',
-  });
-
-  if (!response.ok) {
-    throw new Error('Failed to fetch ingredients');
+const INGREDIENTS_QUERY = graphql(`
+  query Ingredients {
+    ingredients {
+      id
+      name
+      description
+      calories
+      protein
+      carbohydrates
+      fats
+      fiber
+      sugar
+      createdBy {
+        id
+        firstName
+        lastName
+      }
+    }
   }
-
-  const result = await response.json();
-  return result.data;
-};
+`);
 
 function Ingredients() {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['ingredients'],
-    queryFn: fetchIngredients,
+    queryFn: async () => graphqlClient.request(INGREDIENTS_QUERY),
     staleTime: 5 * 60 * 1000,
     retry: 1,
     refetchOnWindowFocus: false,

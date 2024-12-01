@@ -1,47 +1,30 @@
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
+import { graphql } from '../../../../gql/gql';
+import { graphqlClient } from '../../../../utils/graphql-client';
+import { Gender } from '../../../../gql/graphql';
+
+const UPDATE_USER_MUTATION = graphql(`
+  mutation UpdateUser($firstName: String, $lastName: String, $age: Int, $height: Float, $weight: Float, $gender: Gender) {
+    updateUser(firstName: $firstName, lastName: $lastName, age: $age, height: $height, weight: $weight, gender: $gender) {
+      id
+      firstName
+      lastName
+      age
+      height
+      weight
+      gender
+      profileComplete
+    }
+  }
+`);
 
 function SetupForm() {
   const { register, handleSubmit } = useForm();
 
   const mutation = useMutation({
-    mutationFn: async (data: { firstName: string; lastName: string; age: number; height: number; weight: number; gender: string }) => {
-      const response = await fetch('http://localhost:4000/graphql', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          query: `
-            mutation ($firstName: String!, $lastName: String!, $age: Int!, $height: Float!, $weight: Float!, $gender: Gender!) {
-              updateUser(firstName: $firstName, lastName: $lastName, age: $age, height: $height, weight: $weight, gender: $gender) {
-                id
-                firstName
-                lastName
-                age
-                height
-                weight
-                gender
-                profileComplete
-              }
-            }
-          `,
-          variables: {
-            firstName: data.firstName,
-            lastName: data.lastName,
-            age: data.age,
-            height: data.height,
-            weight: data.weight,
-            gender: data.gender,
-          },
-        }),
-        credentials: 'include',
-      });
-      if (!response.ok) {
-        throw new Error('Failed to update profile');
-      }
-      return response.json();
-    },
+    mutationFn: async (data: { firstName: string; lastName: string; age: number; height: number; weight: number; gender: Gender }) => 
+      graphqlClient.request(UPDATE_USER_MUTATION, data),
     onSuccess: (data) => {
       console.log('Profile updated successfully:', data);
     },

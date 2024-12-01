@@ -1,42 +1,27 @@
 import { FC, ReactNode, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import AuthContext from './auth-context';
+import { graphql } from '../../gql/gql';
+import { graphqlClient } from '../../utils/graphql-client';
 
-const fetchAuthStatus = async () => {
-  const response = await fetch('http://localhost:4000/graphql', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      query: `
-        query {
-          me {
-            id
-            email
-            BMR
-            profileComplete
-          }
-        }
-      `,
-    }),
-    credentials: 'include',
-  });
-
-  if (!response.ok) {
-    throw new Error('Failed to fetch authentication status');
+const AUTH_STATUS_QUERY = graphql(`
+  query AuthStatus {
+    me {
+      id
+      email
+      BMR
+      profileComplete
+    }
   }
+`);
 
-  const { data } = await response.json();
-  return data;
-};
 
 export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['authStatus'],
-    queryFn: fetchAuthStatus,
-    retry: 1, // Retry once on failure
-    staleTime: 5 * 60 * 1000, // Cache the response for 5 minutes
+    queryFn: async () => graphqlClient.request(AUTH_STATUS_QUERY),
+    retry: 1,
+    staleTime: 5 * 60 * 1000,
   });
 
   const authContextValue = useMemo(() => {
