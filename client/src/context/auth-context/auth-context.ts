@@ -1,18 +1,21 @@
 import { createContext } from 'react';
 
-type User = Partial<{
-  id: string;
-  email: string;
-}>;
-
-interface AuthContextProps {
+interface AuthContextType {
   isAuthenticated: boolean;
   isProfileComplete: boolean;
-  setIsAuthenticated: (value: boolean) => void;
   loading: boolean;
-  user: User;
+  user: Record<string, any>;
+  isError: boolean;
+  error: Error | null;
 }
 
-const AuthContext = createContext<AuthContextProps | undefined>(undefined);
+const AuthContext = createContext<AuthContextType>({
+  isAuthenticated: false,
+  isProfileComplete: false,
+  loading: true,
+  user: {},
+  isError: false,
+  error: null,
+});
 
 export default AuthContext;

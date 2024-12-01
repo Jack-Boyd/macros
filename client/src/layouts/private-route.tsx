@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { Navigate, Outlet, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
 const PrivateRoute: FC = () => {
@@ -17,7 +17,19 @@ const PrivateRoute: FC = () => {
     return <Navigate to="/app/setup" replace />;
   }
 
-  return <Outlet />;
+  return (
+    <div>
+      <header>
+        <Link to="/">Dashboard</Link>
+        <Link to="/app/profile">Profile</Link>
+        <Link to="/app/ingredients">Ingredients</Link>
+        <Link to="/app/ingredients/add">Add Ingredients</Link>
+      </header>
+      <main>
+        <Outlet />
+      </main>
+    </div>
+  );
 };
 
 export default PrivateRoute;

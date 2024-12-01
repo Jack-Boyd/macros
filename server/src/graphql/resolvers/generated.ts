@@ -61,7 +61,6 @@ export type MutationCreateIngredientArgs = {
   description: Scalars['String']['input'];
   fats: Scalars['Float']['input'];
   fiber?: InputMaybe<Scalars['Float']['input']>;
-  id: Scalars['ID']['input'];
   name: Scalars['String']['input'];
   protein: Scalars['Float']['input'];
   sugar?: InputMaybe<Scalars['Float']['input']>;
@@ -391,7 +390,7 @@ export type IngredientResolvers<ContextType = any, ParentType extends ResolversP
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  createIngredient?: Resolver<ResolversTypes['Ingredient'], ParentType, ContextType, RequireFields<MutationCreateIngredientArgs, 'calories' | 'carbohydrates' | 'description' | 'fats' | 'id' | 'name' | 'protein'>>;
+  createIngredient?: Resolver<ResolversTypes['Ingredient'], ParentType, ContextType, RequireFields<MutationCreateIngredientArgs, 'calories' | 'carbohydrates' | 'description' | 'fats' | 'name' | 'protein'>>;
   deleteIngredient?: Resolver<ResolversTypes['Ingredient'], ParentType, ContextType, RequireFields<MutationDeleteIngredientArgs, 'id'>>;
   login?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'email' | 'password'>>;
   logout?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType>;

@@ -1,56 +1,61 @@
-import { useState, useEffect, FC, ReactNode } from 'react';
+import { FC, ReactNode, useMemo } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import AuthContext from './auth-context';
 
-export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isProfileComplete, setIsProfileComplete] = useState(true);
-  const [user, setUser] = useState({});
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const checkAuthStatus = async () => {
-      try {
-        const response = await fetch('http://localhost:4000/graphql', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            query: `
-              query {
-                me {
-                  id
-                  email
-                  BMR
-                  profileComplete
-                }
-              }
-            `,
-          }),
-          credentials: 'include',
-        });
-
-        const { data } = await response.json();
-        if (data.me) {
-          setIsAuthenticated(true);
-          setUser(data.me);
-          setIsProfileComplete(data.me.profileComplete);
-        } else {
-          setIsAuthenticated(false);
+const fetchAuthStatus = async () => {
+  const response = await fetch('http://localhost:4000/graphql', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      query: `
+        query {
+          me {
+            id
+            email
+            BMR
+            profileComplete
+          }
         }
-      } catch (error) {
-        console.error('Error checking authentication status:', error);
-        setIsAuthenticated(false);
-      } finally {
-        setLoading(false);
-      }
-    };
+      `,
+    }),
+    credentials: 'include',
+  });
 
-    checkAuthStatus();
-  }, []);
-  
+  if (!response.ok) {
+    throw new Error('Failed to fetch authentication status');
+  }
+
+  const { data } = await response.json();
+  return data;
+};
+
+export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ['authStatus'],
+    queryFn: fetchAuthStatus,
+    retry: 1, // Retry once on failure
+    staleTime: 5 * 60 * 1000, // Cache the response for 5 minutes
+  });
+
+  const authContextValue = useMemo(() => {
+    const isAuthenticated = !!data?.me;
+    const user = data?.me || {};
+    const isProfileComplete = data?.me?.profileComplete ?? false;
+
+    return {
+      isAuthenticated,
+      isProfileComplete,
+      loading: isLoading,
+      user,
+      isError,
+      error,
+    };
+  }, [data, isLoading, isError, error]);
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, isProfileComplete, setIsAuthenticated, loading, user}}>
+    <AuthContext.Provider value={authContextValue}>
       {children}
     </AuthContext.Provider>
   );

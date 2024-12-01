@@ -7,6 +7,8 @@ import RegisterPage from './pages/register/register';
 import Dashboard from './pages/app/dashboard/dashboard';
 import ProfilePage from './pages/app/profile/profile';
 import SetupPage from './pages/app/setup/setup';
+import Ingredients from './pages/app/ingredients/ingredients';
+import AddIngredientPage from './pages/app/ingredients/add-ingredient';
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
             <Route index element={<Dashboard />} />
             <Route path="profile" element={<ProfilePage />} />
             <Route path="setup" element={<SetupPage />} />
+            <Route path="ingredients" element={<Ingredients />} />
+            <Route path="ingredients/add" element={<AddIngredientPage />} />
           </Route>
         </Routes>
       </Router>
