@@ -23,6 +23,7 @@ const PrivateRoute: FC = () => {
         <Link to="/app/profile">Profile</Link>
         <Link to="/app/ingredients">Ingredients</Link>
         <Link to="/app/ingredients/add">Add Ingredients</Link>
+        <Link to="/app/recipes">Recipes</Link>
         <Link to="/app/recipes/add">Add Recipes</Link>
       </header>
       <main>

@@ -20,6 +20,7 @@ const documents = {
     "\n  query Ingredients {\n    ingredients {\n      id\n      name\n      description\n      unit\n      calories\n      protein\n      carbohydrates\n      fats\n      fiber\n      sugar\n      createdBy {\n        id\n        firstName\n        lastName\n      }\n    }\n  }\n": types.IngredientsDocument,
     "\n  mutation CreateRecipe(\n    $title: String!\n    $description: String\n    $servings: Int!\n    $recipeIngredients: [RecipeIngredientInput!]!\n  ) {\n    createRecipe(\n      title: $title\n      description: $description\n      servings: $servings\n      recipeIngredients: $recipeIngredients\n    ) {\n      id\n      title\n      description\n      servings\n      recipeIngredients {\n        id\n        quantity\n        unit\n        ingredient {\n          id\n          name\n        }\n      }\n    }\n  }\n": types.CreateRecipeDocument,
     "\n  query IngredientsInput {\n    ingredients {\n      id\n      name\n    }\n  }\n": types.IngredientsInputDocument,
+    "\n  query Recipes {\n    recipes {\n      id\n      title\n      description\n      servings\n      totalCalories\n      totalProtein\n      totalCarbohydrates\n      totalFats\n      createdBy {\n        id\n        firstName\n        lastName\n      }\n    }\n  }\n": types.RecipesDocument,
     "\n  mutation UpdateUser(\n    $firstName: String\n    $lastName: String\n    $age: Int\n    $height: Float\n    $weight: Float\n    $gender: Gender\n  ) {\n    updateUser(\n      firstName: $firstName\n      lastName: $lastName\n      age: $age\n      height: $height\n      weight: $weight\n      gender: $gender\n    ) {\n      id\n      firstName\n      lastName\n      age\n      height\n      weight\n      gender\n      profileComplete\n    }\n  }\n": types.UpdateUserDocument,
     "\n  mutation Login($email: String!, $password: String!) {\n    login(email: $email, password: $password) {\n      message\n    }\n  }\n": types.LoginDocument,
     "\n  mutation Register($email: String!, $password: String!) {\n    register(email: $email, password: $password) {\n      message\n    }\n  }\n": types.RegisterDocument,
@@ -63,6 +64,10 @@ export function graphql(source: "\n  mutation CreateRecipe(\n    $title: String!
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query IngredientsInput {\n    ingredients {\n      id\n      name\n    }\n  }\n"): (typeof documents)["\n  query IngredientsInput {\n    ingredients {\n      id\n      name\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query Recipes {\n    recipes {\n      id\n      title\n      description\n      servings\n      totalCalories\n      totalProtein\n      totalCarbohydrates\n      totalFats\n      createdBy {\n        id\n        firstName\n        lastName\n      }\n    }\n  }\n"): (typeof documents)["\n  query Recipes {\n    recipes {\n      id\n      title\n      description\n      servings\n      totalCalories\n      totalProtein\n      totalCarbohydrates\n      totalFats\n      createdBy {\n        id\n        firstName\n        lastName\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
