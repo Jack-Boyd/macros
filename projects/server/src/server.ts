@@ -14,10 +14,12 @@ import tokenMiddleware from './middleware/token';
 function createApp() {
   const app = express();
   app.use(cookieParser());
-  app.use(cors({
-    origin: 'http://localhost:5173',
-    credentials: true,
-  }));
+  app.use(
+    cors({
+      origin: 'http://localhost:5173',
+      credentials: true,
+    }),
+  );
   app.use(compression());
   app.use(loggingMiddleware);
   app.use(tokenMiddleware);
@@ -39,5 +41,12 @@ app.use(notFoundMiddleware);
 app.use(errorMiddleware);
 
 app.listen(env.PORT, () => {
-  console.log(`Running a GraphQL API server at http://localhost:${env.PORT}/graphql`);
+  console.log(
+    `Running a GraphQL API server at http://localhost:${env.PORT}/graphql`,
+  );
+});
+
+process.on('SIGINT', () => {
+  console.log('Shutting down gracefully...');
+  process.exit(0);
 });
