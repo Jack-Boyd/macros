@@ -1,8 +1,27 @@
 import { FC, ReactNode, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import AuthContext from './auth-context';
 import { graphql } from '../../gql/gql';
 import { graphqlClient } from '../../utils/graphql-client';
+
+import { createContext } from 'react';
+
+interface AuthContextType {
+  isAuthenticated: boolean;
+  isProfileComplete: boolean;
+  loading: boolean;
+  user: Record<string, any>;
+  isError: boolean;
+  error: Error | null;
+}
+
+export const AuthContext = createContext<AuthContextType>({
+  isAuthenticated: false,
+  isProfileComplete: false,
+  loading: true,
+  user: {},
+  isError: false,
+  error: null,
+});
 
 const AUTH_STATUS_QUERY = graphql(`
   query AuthStatus {
@@ -14,7 +33,6 @@ const AUTH_STATUS_QUERY = graphql(`
     }
   }
 `);
-
 
 export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const { data, isLoading, isError, error } = useQuery({

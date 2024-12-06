@@ -17,7 +17,7 @@ function Dashboard() {
   const logoutMutation = useMutation({
     mutationFn: async () => graphqlClient.request(LOGOUT_MUTATION),
     onSuccess: () => {
-      navigate("/", { replace: true });
+      navigate('/', { replace: true });
       window.location.reload();
     },
   });

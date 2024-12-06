@@ -4,8 +4,26 @@ import { graphql } from '../../../gql/gql';
 import { graphqlClient } from '../../../utils/graphql-client';
 
 const CREATE_INGREDIENT_MUTATION = graphql(`
-  mutation CreateIngredient($name: String!, $description: String!, $calories: Float!, $protein: Float!, $carbohydrates: Float!, $fats: Float!, $fiber: Float, $sugar: Float) {
-    createIngredient(name: $name, description: $description, calories: $calories, protein: $protein, carbohydrates: $carbohydrates, fats: $fats, fiber: $fiber, sugar: $sugar) {
+  mutation CreateIngredient(
+    $name: String!
+    $description: String!
+    $calories: Float!
+    $protein: Float!
+    $carbohydrates: Float!
+    $fats: Float!
+    $fiber: Float
+    $sugar: Float
+  ) {
+    createIngredient(
+      name: $name
+      description: $description
+      calories: $calories
+      protein: $protein
+      carbohydrates: $carbohydrates
+      fats: $fats
+      fiber: $fiber
+      sugar: $sugar
+    ) {
       id
       name
       description
@@ -28,8 +46,16 @@ function AddIngredientPage() {
   const { register, handleSubmit } = useForm();
 
   const mutation = useMutation({
-    mutationFn: async (data: { name: string, description: string, calories: number, protein: number, carbohydrates: number, fats: number, fiber: number | null, sugar: number | null }) => 
-      graphqlClient.request(CREATE_INGREDIENT_MUTATION, data),
+    mutationFn: async (data: {
+      name: string;
+      description: string;
+      calories: number;
+      protein: number;
+      carbohydrates: number;
+      fats: number;
+      fiber: number | null;
+      sugar: number | null;
+    }) => graphqlClient.request(CREATE_INGREDIENT_MUTATION, data),
     onSuccess: (data) => {
       console.log('Ingredient created successfully:', data);
     },
@@ -55,11 +81,7 @@ function AddIngredientPage() {
         </div>
         <div>
           <label htmlFor="description">Description</label>
-          <input
-            type="text"
-            id="description"
-            {...register('description')}
-          />
+          <input type="text" id="description" {...register('description')} />
         </div>
         <div>
           <label htmlFor="calories">Calories</label>
@@ -82,7 +104,10 @@ function AddIngredientPage() {
           <input
             type="number"
             id="carbohydrates"
-            {...register('carbohydrates', { required: true, valueAsNumber: true })}
+            {...register('carbohydrates', {
+              required: true,
+              valueAsNumber: true,
+            })}
           />
         </div>
         <div>
@@ -112,11 +137,15 @@ function AddIngredientPage() {
         <button type="submit" disabled={mutation.isPending}>
           {mutation.isPending ? 'Saving...' : 'Submit'}
         </button>
-        {mutation.isError && <p style={{ color: 'red' }}>Error saving ingredient.</p>}
-        {mutation.isSuccess && <p style={{ color: 'green' }}>Ingredient saved successfully.</p>}
-        </form>
+        {mutation.isError && (
+          <p style={{ color: 'red' }}>Error saving ingredient.</p>
+        )}
+        {mutation.isSuccess && (
+          <p style={{ color: 'green' }}>Ingredient saved successfully.</p>
+        )}
+      </form>
     </div>
-  )
-} 
+  );
+}
 
 export default AddIngredientPage;

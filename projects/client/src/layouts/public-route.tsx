@@ -6,7 +6,7 @@ const PublicRoute: FC = () => {
   const { isAuthenticated, loading } = useAuth();
 
   if (loading) {
-    return <div>Loading...</div>; 
+    return <div>Loading...</div>;
   }
 
   if (isAuthenticated) {
@@ -17,4 +17,3 @@ const PublicRoute: FC = () => {
 };
 
 export default PublicRoute;
-

@@ -5,8 +5,22 @@ import { graphqlClient } from '../../../../utils/graphql-client';
 import { Gender } from '../../../../gql/graphql';
 
 const UPDATE_USER_MUTATION = graphql(`
-  mutation UpdateUser($firstName: String, $lastName: String, $age: Int, $height: Float, $weight: Float, $gender: Gender) {
-    updateUser(firstName: $firstName, lastName: $lastName, age: $age, height: $height, weight: $weight, gender: $gender) {
+  mutation UpdateUser(
+    $firstName: String
+    $lastName: String
+    $age: Int
+    $height: Float
+    $weight: Float
+    $gender: Gender
+  ) {
+    updateUser(
+      firstName: $firstName
+      lastName: $lastName
+      age: $age
+      height: $height
+      weight: $weight
+      gender: $gender
+    ) {
       id
       firstName
       lastName
@@ -23,8 +37,14 @@ function SetupForm() {
   const { register, handleSubmit } = useForm();
 
   const mutation = useMutation({
-    mutationFn: async (data: { firstName: string; lastName: string; age: number; height: number; weight: number; gender: Gender }) => 
-      graphqlClient.request(UPDATE_USER_MUTATION, data),
+    mutationFn: async (data: {
+      firstName: string;
+      lastName: string;
+      age: number;
+      height: number;
+      weight: number;
+      gender: Gender;
+    }) => graphqlClient.request(UPDATE_USER_MUTATION, data),
     onSuccess: (data) => {
       console.log('Profile updated successfully:', data);
     },
@@ -83,10 +103,7 @@ function SetupForm() {
         </div>
         <div>
           <label htmlFor="gender">Gender</label>
-          <select
-            id="gender"
-            {...register('gender', { required: true})}
-          >
+          <select id="gender" {...register('gender', { required: true })}>
             <option value="MALE">Male</option>
             <option value="FEMALE">Female</option>
           </select>
@@ -95,8 +112,12 @@ function SetupForm() {
           {mutation.isPending ? 'Saving...' : 'Submit'}
         </button>
       </form>
-      {mutation.isError && <p style={{ color: 'red' }}>Error saving profile.</p>}
-      {mutation.isSuccess && <p style={{ color: 'green' }}>Profile saved successfully.</p>}
+      {mutation.isError && (
+        <p style={{ color: 'red' }}>Error saving profile.</p>
+      )}
+      {mutation.isSuccess && (
+        <p style={{ color: 'green' }}>Profile saved successfully.</p>
+      )}
     </div>
   );
 }

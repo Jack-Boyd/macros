@@ -1,9 +1,7 @@
-import { CodegenConfig } from '@graphql-codegen/cli'
+import { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
-  schema: [
-    'http://localhost:4000/graphql',
-  ],
+  schema: ['http://localhost:4000/graphql'],
   ignoreNoDocuments: true,
   generates: {
     './src/gql/': {
@@ -12,6 +10,6 @@ const config: CodegenConfig = {
       plugins: [],
     },
   },
-}
+};
 
-export default config
+export default config;

@@ -21,12 +21,17 @@ function LoginPage() {
   const from = (location.state as { from?: string })?.from || '/app';
 
   const loginMutation = useMutation({
-    mutationFn: async ({ email, password }: { email: string; password: string }) => 
-      graphqlClient.request(LOGIN_MUTATION, { email, password }),
+    mutationFn: async ({
+      email,
+      password,
+    }: {
+      email: string;
+      password: string;
+    }) => graphqlClient.request(LOGIN_MUTATION, { email, password }),
     onSuccess: () => {
       navigate(from, { replace: true });
-      window.location.reload()
-    }
+      window.location.reload();
+    },
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -39,16 +44,28 @@ function LoginPage() {
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <label>Email:</label>
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
         <label>Password:</label>
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
         <button type="submit" disabled={loginMutation.isPending}>
           {loginMutation.isPending ? 'Logging in...' : 'Login'}
         </button>
       </form>
-      {loginMutation.isError && <p style={{ color: 'red' }}>Login failed. Please try again.</p>}
+      {loginMutation.isError && (
+        <p style={{ color: 'red' }}>Login failed. Please try again.</p>
+      )}
     </div>
   );
-};
+}
 
 export default LoginPage;
