@@ -8,6 +8,7 @@ const INGREDIENTS_QUERY = graphql(`
       id
       name
       description
+      unit
       calories
       protein
       carbohydrates
@@ -40,7 +41,10 @@ function Ingredients() {
       <h1>Ingredients</h1>
       <div>
         {data?.ingredients.map((ingredient) => (
-          <p key={ingredient.id}>{ingredient.name}</p>
+          <div key={ingredient.id}>
+            <p>{ingredient.name}</p>
+            <p>{ingredient.unit}</p>
+          </div>
         ))}
       </div>
     </div>

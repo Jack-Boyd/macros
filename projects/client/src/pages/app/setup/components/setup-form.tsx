@@ -1,8 +1,8 @@
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { graphql } from '../../../../gql/gql';
-import { graphqlClient } from '../../../../utils/graphql-client';
 import { Gender } from '../../../../gql/graphql';
+import { graphqlClient } from '../../../../utils/graphql-client';
 
 const UPDATE_USER_MUTATION = graphql(`
   mutation UpdateUser(

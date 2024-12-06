@@ -41,6 +41,7 @@ export type Ingredient = {
   protein: Scalars['Float']['output'];
   sugar?: Maybe<Scalars['Float']['output']>;
   text?: Maybe<Scalars['String']['output']>;
+  unit: Unit;
 };
 
 export type Mutation = {
@@ -64,6 +65,7 @@ export type MutationCreateIngredientArgs = {
   name: Scalars['String']['input'];
   protein: Scalars['Float']['input'];
   sugar?: InputMaybe<Scalars['Float']['input']>;
+  unit: Unit;
 };
 
 
@@ -94,6 +96,7 @@ export type MutationUpdateIngredientArgs = {
   name?: InputMaybe<Scalars['String']['input']>;
   protein?: InputMaybe<Scalars['Float']['input']>;
   sugar?: InputMaybe<Scalars['Float']['input']>;
+  unit?: InputMaybe<Unit>;
 };
 
 
@@ -240,6 +243,13 @@ export type TotalNutrientsKCal = {
   PROCNT_KCAL?: Maybe<NutrientInfo>;
 };
 
+export const Unit = {
+  Grams: 'GRAMS',
+  Millilitres: 'MILLILITRES',
+  Pounds: 'POUNDS'
+} as const;
+
+export type Unit = typeof Unit[keyof typeof Unit];
 export type User = {
   __typename?: 'User';
   BMR?: Maybe<Scalars['Int']['output']>;
@@ -345,6 +355,7 @@ export type ResolversTypes = {
   TotalDaily: ResolverTypeWrapper<TotalDaily>;
   TotalNutrients: ResolverTypeWrapper<TotalNutrients>;
   TotalNutrientsKCal: ResolverTypeWrapper<TotalNutrientsKCal>;
+  Unit: Unit;
   User: ResolverTypeWrapper<User>;
 };
 
@@ -386,11 +397,12 @@ export type IngredientResolvers<ContextType = any, ParentType extends ResolversP
   protein?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   sugar?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   text?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  unit?: Resolver<ResolversTypes['Unit'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  createIngredient?: Resolver<ResolversTypes['Ingredient'], ParentType, ContextType, RequireFields<MutationCreateIngredientArgs, 'calories' | 'carbohydrates' | 'description' | 'fats' | 'name' | 'protein'>>;
+  createIngredient?: Resolver<ResolversTypes['Ingredient'], ParentType, ContextType, RequireFields<MutationCreateIngredientArgs, 'calories' | 'carbohydrates' | 'description' | 'fats' | 'name' | 'protein' | 'unit'>>;
   deleteIngredient?: Resolver<ResolversTypes['Ingredient'], ParentType, ContextType, RequireFields<MutationDeleteIngredientArgs, 'id'>>;
   login?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'email' | 'password'>>;
   logout?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType>;

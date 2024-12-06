@@ -1,12 +1,14 @@
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { graphql } from '../../../gql/gql';
+import { Unit } from '../../../gql/graphql';
 import { graphqlClient } from '../../../utils/graphql-client';
 
 const CREATE_INGREDIENT_MUTATION = graphql(`
   mutation CreateIngredient(
     $name: String!
     $description: String!
+    $unit: Unit!
     $calories: Float!
     $protein: Float!
     $carbohydrates: Float!
@@ -17,6 +19,7 @@ const CREATE_INGREDIENT_MUTATION = graphql(`
     createIngredient(
       name: $name
       description: $description
+      unit: $unit
       calories: $calories
       protein: $protein
       carbohydrates: $carbohydrates
@@ -27,6 +30,7 @@ const CREATE_INGREDIENT_MUTATION = graphql(`
       id
       name
       description
+      unit
       calories
       protein
       carbohydrates
@@ -49,6 +53,7 @@ function AddIngredientPage() {
     mutationFn: async (data: {
       name: string;
       description: string;
+      unit: Unit;
       calories: number;
       protein: number;
       carbohydrates: number;
@@ -82,6 +87,14 @@ function AddIngredientPage() {
         <div>
           <label htmlFor="description">Description</label>
           <input type="text" id="description" {...register('description')} />
+        </div>
+        <div>
+          <label htmlFor="unit">Unit</label>
+          <select id="unit" {...register('unit', { required: true })}>
+            <option value="GRAMS">Grams</option>
+            <option value="POUNDS">Pounds</option>
+            <option value="MILLILITRES">Millilitres</option>
+          </select>
         </div>
         <div>
           <label htmlFor="calories">Calories</label>

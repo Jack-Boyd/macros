@@ -1,9 +1,10 @@
-import { QueryResolvers, MutationResolvers } from './generated';
+import { QueryResolvers, MutationResolvers, Unit } from './generated';
 import prisma from '../../config/db';
 
 interface CreateIngredientArgs {
   name: string;
   description: string;
+  unit: Unit;
   calories: number;
   protein: number;
   carbohydrates: number;
@@ -26,9 +27,20 @@ const ingredients: QueryResolvers['ingredients'] = async (_, __, { req }) => {
     throw new Error('Failed to fetch ingredients');
   }
 };
-const createIngredient: MutationResolvers['createIngredient'] = async (_, 
-  { name, description, calories, protein, carbohydrates, fats, fiber, sugar }: CreateIngredientArgs, 
-  { req }: { req: any }
+const createIngredient: MutationResolvers['createIngredient'] = async (
+  _,
+  {
+    name,
+    description,
+    unit,
+    calories,
+    protein,
+    carbohydrates,
+    fats,
+    fiber,
+    sugar,
+  }: CreateIngredientArgs,
+  { req }: { req: any },
 ) => {
   const user = req.user;
   if (!user) throw new Error('Not authenticated');
@@ -37,6 +49,7 @@ const createIngredient: MutationResolvers['createIngredient'] = async (_,
       data: {
         name,
         description,
+        unit,
         calories,
         protein,
         carbohydrates,
@@ -55,7 +68,7 @@ const createIngredient: MutationResolvers['createIngredient'] = async (_,
     console.error('Error creating ingredient:', error);
     throw new Error('Failed to create ingredient');
   }
-}
+};
 
 export const ingredientResolvers = {
   Query: { ingredients },

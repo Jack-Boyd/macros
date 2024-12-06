@@ -22,6 +22,9 @@
   "scripts": {
     "dev:client": "pnpm --filter macros-client dev",
     "dev:server": "pnpm --filter macros-server dev",
+    "generate:client": "pnpm --filter macros-client generate",
+    "generate-watch:client": "pnpm --filter macros-client generate -w",
+    "generate:server": "pnpm --filter macros-server generate",
     "lint": "eslint .",
     "format": "prettier --write ."
   }
