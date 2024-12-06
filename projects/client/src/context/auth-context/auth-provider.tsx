@@ -38,7 +38,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['authStatus'],
     queryFn: async () => graphqlClient.request(AUTH_STATUS_QUERY),
-    retry: 1,
+    retry: 0,
     staleTime: 5 * 60 * 1000,
   });
 
@@ -46,7 +46,6 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const isAuthenticated = !!data?.me;
     const user = data?.me || {};
     const isProfileComplete = data?.me?.profileComplete ?? false;
-
     return {
       isAuthenticated,
       isProfileComplete,

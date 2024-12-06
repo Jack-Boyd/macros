@@ -5,7 +5,6 @@ import { useAuth } from '../hooks/useAuth';
 const PrivateRoute: FC = () => {
   const { isAuthenticated, isProfileComplete, loading } = useAuth();
   const location = useLocation();
-
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -20,7 +19,7 @@ const PrivateRoute: FC = () => {
   return (
     <div>
       <header>
-        <Link to="/">Dashboard</Link>
+        <Link to="/app">Dashboard</Link>
         <Link to="/app/profile">Profile</Link>
         <Link to="/app/ingredients">Ingredients</Link>
         <Link to="/app/ingredients/add">Add Ingredients</Link>

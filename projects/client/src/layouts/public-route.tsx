@@ -8,7 +8,6 @@ const PublicRoute: FC = () => {
   if (loading) {
     return <div>Loading...</div>;
   }
-
   if (isAuthenticated) {
     return <Navigate to="/app" />;
   }
