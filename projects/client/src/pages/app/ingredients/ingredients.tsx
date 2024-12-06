@@ -43,7 +43,6 @@ function Ingredients() {
         {data?.ingredients.map((ingredient) => (
           <div key={ingredient.id}>
             <p>{ingredient.name}</p>
-            <p>{ingredient.unit}</p>
           </div>
         ))}
       </div>

@@ -17,6 +17,12 @@ enum Gender {
   FEMALE
 }
 
+enum Unit {
+  GRAMS
+  POUNDS
+  MILLILITRES
+}
+
 model User {
   id              String      @id @default(cuid())
   createdAt       DateTime    @default(now())
@@ -36,12 +42,7 @@ model User {
   profileComplete Boolean     @default(false)
 
   ingredients     Ingredient[]
-}
-
-enum Unit {
-  GRAMS
-  POUNDS
-  MILLILITRES
+  recipes         Recipe[]
 }
 
 model Ingredient {
@@ -49,16 +50,45 @@ model Ingredient {
   name          String        @unique
   description   String
   unit          Unit          @default(GRAMS)
-  calories      Float
-  protein       Float
-  carbohydrates Float
-  fats          Float
-  fiber         Float?
-  sugar         Float?
+  calories      Float         
+  protein       Float         
+  carbohydrates Float         
+  fats          Float         
+  fiber         Float?        
+  sugar         Float?        
+  perUnitBasis  Int           @default(100)
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 
   createdById   String
   createdBy     User          @relation(fields: [createdById], references: [id])
 
+  recipeIngredients RecipeIngredient[]
+}
+
+model Recipe {
+  id                String             @id @default(cuid())
+  title             String
+  description       String?
+  servings          Int                @default(1)
+  totalCalories     Float?
+  totalProtein      Float?
+  totalCarbohydrates Float?
+  totalFats         Float?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  createdById       String
+  createdBy         User               @relation(fields: [createdById], references: [id])
+
+  recipeIngredients RecipeIngredient[]
+}
+
+model RecipeIngredient {
+  id            String        @id @default(cuid())
+  quantity      Float         
+  unit          Unit          
+  ingredientId  String
+  ingredient    Ingredient     @relation(fields: [ingredientId], references: [id])
+  recipeId      String
+  recipe        Recipe         @relation(fields: [recipeId], references: [id])
 }

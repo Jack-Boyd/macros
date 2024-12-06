@@ -14,6 +14,7 @@ import ProfilePage from './pages/app/profile/profile';
 import SetupPage from './pages/app/setup/setup';
 import Ingredients from './pages/app/ingredients/ingredients';
 import AddIngredientPage from './pages/app/ingredients/add-ingredient';
+import AddRecipePage from './pages/app/recipes/add-recipe';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route path="setup" element={<SetupPage />} />
             <Route path="ingredients" element={<Ingredients />} />
             <Route path="ingredients/add" element={<AddIngredientPage />} />
+            <Route path="recipes/add" element={<AddRecipePage />} />
           </Route>
         </Routes>
       </Router>
