@@ -38,6 +38,7 @@ export type Ingredient = {
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   parsed?: Maybe<Array<Maybe<ParsedIngredient>>>;
+  perUnitBasis: Scalars['Int']['output'];
   protein: Scalars['Float']['output'];
   sugar?: Maybe<Scalars['Float']['output']>;
   text?: Maybe<Scalars['String']['output']>;
@@ -460,6 +461,7 @@ export type IngredientResolvers<ContextType = any, ParentType extends ResolversP
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   parsed?: Resolver<Maybe<Array<Maybe<ResolversTypes['ParsedIngredient']>>>, ParentType, ContextType>;
+  perUnitBasis?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   protein?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   sugar?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   text?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;

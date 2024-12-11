@@ -43,6 +43,10 @@ function Ingredients() {
         {data?.ingredients.map((ingredient) => (
           <div key={ingredient.id}>
             <p>{ingredient.name}</p>
+            <p>{ingredient.calories}</p>
+            <p>{ingredient.protein}</p>
+            <p>{ingredient.carbohydrates}</p>
+            <p>{ingredient.fats}</p>
           </div>
         ))}
       </div>

@@ -43,6 +43,7 @@ type Ingredient {
   fats: Float!
   fiber: Float
   sugar: Float
+  perUnitBasis: Int!
   createdBy: User!
 }
 

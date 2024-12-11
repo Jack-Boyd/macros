@@ -41,6 +41,10 @@ function Recipes() {
         {data?.recipes.map((recipe) => (
           <div key={recipe.id}>
             <p>{recipe.title}</p>
+            <p>{recipe.totalCalories}</p>
+            <p>{recipe.totalProtein}</p>
+            <p>{recipe.totalCarbohydrates}</p>
+            <p>{recipe.totalFats}</p>
           </div>
         ))}
       </div>

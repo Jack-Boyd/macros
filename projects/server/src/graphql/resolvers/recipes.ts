@@ -1,5 +1,6 @@
 import { MutationResolvers, QueryResolvers } from './generated';
 import prisma from '../../config/db';
+import { calculateTotals } from '../../utils/recipe-calculations';
 
 const recipes: QueryResolvers['recipes'] = async (_, __, { req }) => {
   const user = req.user;
@@ -27,21 +28,34 @@ const createRecipe: MutationResolvers['createRecipe'] = async (
 ) => {
   const user = req.user;
   if (!user) throw new Error('Not authenticated');
-  console.log('user', user);
   try {
+    const ingredientIds = recipeIngredients.map((ri) => ri.ingredientId);
+    const ingredientsData = await prisma.ingredient.findMany({
+      where: { id: { in: ingredientIds } },
+      include: {
+        createdBy: true,
+      },
+    });
+
+    const ingredientMap = new Map(ingredientsData.map((ing) => [ing.id, ing]));
+
+    const totals = calculateTotals(recipeIngredients, ingredientMap);
+
     const recipe = await prisma.recipe.create({
       data: {
         title,
         description,
         servings,
         createdById: user.userId,
+        totalCalories: totals.totalCalories,
+        totalProtein: totals.totalProtein,
+        totalCarbohydrates: totals.totalCarbohydrates,
+        totalFats: totals.totalFats,
         recipeIngredients: {
-          create: recipeIngredients.map((ingredient) => ({
-            quantity: ingredient.quantity,
-            unit: ingredient.unit,
-            ingredient: {
-              connect: { id: ingredient.ingredientId },
-            },
+          create: recipeIngredients.map((ri) => ({
+            quantity: ri.quantity,
+            unit: ri.unit,
+            ingredient: { connect: { id: ri.ingredientId } },
           })),
         },
       },
