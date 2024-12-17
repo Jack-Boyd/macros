@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
 import { graphql } from '../../../gql/gql';
 import { graphqlClient } from '../../../utils/graphql-client';
 
@@ -37,14 +38,16 @@ function Recipes() {
   return (
     <div>
       <h1>Recipes</h1>
+      <Link to="/app/recipes/add">Add</Link>
       <div>
         {data?.recipes.map((recipe) => (
           <div key={recipe.id}>
             <p>{recipe.title}</p>
-            <p>{recipe.totalCalories}</p>
-            <p>{recipe.totalProtein}</p>
-            <p>{recipe.totalCarbohydrates}</p>
-            <p>{recipe.totalFats}</p>
+            <p>{recipe.servings}</p>
+            <p>{recipe!.totalCalories! / recipe.servings}</p>
+            <p>{recipe!.totalProtein! / recipe.servings}</p>
+            <p>{recipe!.totalCarbohydrates! / recipe.servings}</p>
+            <p>{recipe!.totalFats! / recipe.servings}</p>
           </div>
         ))}
       </div>
